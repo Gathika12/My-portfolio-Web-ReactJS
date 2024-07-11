@@ -20,7 +20,7 @@ export const projects = [
   {
     title: 'American Corner Project',
     description: "This project is a comprehensive web application designed to manage and streamline the administrative tasks of educational institutions. Built using ReactJS, this application offers a user-friendly interface for managing student information, tracking academic progress, and handling various administrative functions efficiently.",
-      image: '/images/3.jpg',
+      image: '/images/amc.png',
       tags: ['React', 'WebRTC'],
     source: 'https://google.com',
     visit: 'https://google.com',

@@ -1,29 +1,63 @@
-import React from 'react';
-
-import { BlogCard, CardInfo, ExternalLinks, GridContainer, HeaderThree, Hr, Tag, TagList, TitleContent, UtilityList, Img } from './ProjectsStyles';
-import { Section, SectionDivider, SectionTitle } from '../../styles/GlobalComponents';
+import React, { useState, useEffect } from 'react';
+import {
+  Section,
+  SectionDivider,
+  SectionTitle
+} from '../../styles/GlobalComponents';
 import { projects } from '../../constants/constants';
+import {
+  BlogCard,
+  CardInfo,
+  ExternalLinks,
+  GridContainer,
+  HeaderThree,
+  Hr,
+  Img,
+  Tag,
+  TagList,
+  TitleContent,
+  UtilityList
+} from './ProjectsStyles';
 
-const Projects = () => (
-  <Section nopadding id="projects">
-    <SectionDivider />
-    <SectionTitle main>Projects</SectionTitle>
-    <GridContainer>
-      {projects.map((p, i) => {
-        return (
-          <BlogCard key={i}>
-          <Img src={p.image} />
+const Projects = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  // Update scrollY state on scroll
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
+    // Attach scroll listener
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      // Cleanup on unmount
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  return (
+    <Section nopadding id="projects">
+      <SectionDivider />
+      <SectionTitle main>Projects</SectionTitle>
+      <GridContainer>
+        {projects.map((p, i) => (
+          <BlogCard
+            key={i}
+            style={{ opacity: scrollY > 200 ? 1 : scrollY / 200 }}
+          >
+            <Img src={p.image} />
             <TitleContent>
               <HeaderThree title>{p.title}</HeaderThree>
               <Hr />
             </TitleContent>
-            <CardInfo className="card-info">{p.description}</CardInfo>
+            <CardInfo>{p.description}</CardInfo>
             <div>
               <TitleContent>Stack</TitleContent>
               <TagList>
-                {p.tags.map((t, i) => {
-                  return <Tag key={i}>{t}</Tag>;
-                })}
+                {p.tags.map((t, i) => (
+                  <Tag key={i}>{t}</Tag>
+                ))}
               </TagList>
             </div>
             <UtilityList>
@@ -31,10 +65,10 @@ const Projects = () => (
               <ExternalLinks href={p.source}>Source</ExternalLinks>
             </UtilityList>
           </BlogCard>
-        );
-      })}
-    </GridContainer>
-  </Section>
-);
+        ))}
+      </GridContainer>
+    </Section>
+  );
+};
 
 export default Projects;
